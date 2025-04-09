@@ -1,0 +1,15 @@
+/workspaces/POO/PythonC++Java/Input#/bin/Debug/net8.0/Input#
+/workspaces/POO/PythonC++Java/Input#/bin/Debug/net8.0/Input#.deps.json
+/workspaces/POO/PythonC++Java/Input#/bin/Debug/net8.0/Input#.runtimeconfig.json
+/workspaces/POO/PythonC++Java/Input#/bin/Debug/net8.0/Input#.dll
+/workspaces/POO/PythonC++Java/Input#/bin/Debug/net8.0/Input#.pdb
+/workspaces/POO/PythonC++Java/Input#/obj/Debug/net8.0/Input#.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/POO/PythonC++Java/Input#/obj/Debug/net8.0/Input#.AssemblyInfoInputs.cache
+/workspaces/POO/PythonC++Java/Input#/obj/Debug/net8.0/Input#.AssemblyInfo.cs
+/workspaces/POO/PythonC++Java/Input#/obj/Debug/net8.0/Input#.csproj.CoreCompileInputs.cache
+/workspaces/POO/PythonC++Java/Input#/obj/Debug/net8.0/Input#.sourcelink.json
+/workspaces/POO/PythonC++Java/Input#/obj/Debug/net8.0/Input#.dll
+/workspaces/POO/PythonC++Java/Input#/obj/Debug/net8.0/refint/Input#.dll
+/workspaces/POO/PythonC++Java/Input#/obj/Debug/net8.0/Input#.pdb
+/workspaces/POO/PythonC++Java/Input#/obj/Debug/net8.0/Input#.genruntimeconfig.cache
+/workspaces/POO/PythonC++Java/Input#/obj/Debug/net8.0/ref/Input#.dll
