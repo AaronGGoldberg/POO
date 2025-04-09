@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Input_
-build_property.ProjectDir = /workspaces/POO/PythonC++Java/Input#/
+build_property.ProjectDir = /workspaces/POO/PythonC++C#Java/InputC#/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

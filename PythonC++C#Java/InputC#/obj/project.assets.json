@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/workspaces/POO/PythonC++Java/Input#/Input#.csproj",
+      "projectUniqueName": "/workspaces/POO/PythonC++C#Java/InputC#/Input#.csproj",
       "projectName": "Input#",
-      "projectPath": "/workspaces/POO/PythonC++Java/Input#/Input#.csproj",
+      "projectPath": "/workspaces/POO/PythonC++C#Java/InputC#/Input#.csproj",
       "packagesPath": "/home/codespace/.nuget/packages/",
-      "outputPath": "/workspaces/POO/PythonC++Java/Input#/obj/",
+      "outputPath": "/workspaces/POO/PythonC++C#Java/InputC#/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/home/codespace/.nuget/NuGet/NuGet.Config"
