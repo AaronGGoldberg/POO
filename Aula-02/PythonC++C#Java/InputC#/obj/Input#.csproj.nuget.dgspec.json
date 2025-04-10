@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/workspaces/POO/PythonC++C#Java/InputC#/Input#.csproj": {}
+    "/workspaces/POO/Aula-02/PythonC++C#Java/InputC#/Input#.csproj": {}
   },
   "projects": {
-    "/workspaces/POO/PythonC++C#Java/InputC#/Input#.csproj": {
+    "/workspaces/POO/Aula-02/PythonC++C#Java/InputC#/Input#.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/workspaces/POO/PythonC++C#Java/InputC#/Input#.csproj",
+        "projectUniqueName": "/workspaces/POO/Aula-02/PythonC++C#Java/InputC#/Input#.csproj",
         "projectName": "Input#",
-        "projectPath": "/workspaces/POO/PythonC++C#Java/InputC#/Input#.csproj",
+        "projectPath": "/workspaces/POO/Aula-02/PythonC++C#Java/InputC#/Input#.csproj",
         "packagesPath": "/home/codespace/.nuget/packages/",
-        "outputPath": "/workspaces/POO/PythonC++C#Java/InputC#/obj/",
+        "outputPath": "/workspaces/POO/Aula-02/PythonC++C#Java/InputC#/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/codespace/.nuget/NuGet/NuGet.Config"
