@@ -106,4 +106,4 @@ class UI:
         b = int(input("Informe o nº do 2º cliente: ")) 
         clientes[a].set_socio(clientes[b])
 
-UI.main()    
+UI.main()
