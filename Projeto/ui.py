@@ -1,17 +1,15 @@
 #from cliente import Cliente, Clientes
-#from categoria import Categoria, Categorias
-#from produto import Produto, Produtos
-#from venda import Venda, Vendas
-#from vendaitem import VendaItem, VendaItens
+from models.categoria import Categoria, Categorias
+from models.produto import Produto, Produtos
+from models.venda import Venda, Vendas
+from models.vendaitem import VendaItem, VendaItens
 
 from views import View
 
-class UI:  # Classe de Interface com o Usuário (View no padrão)
-    carrinho = None  # Carrinho de compras atual (compartilhado como atributo de classe)
-
+class UI:  # Visão/Apresentação - Não tem instância
+    carrinho = None   # atributo de classe
     @staticmethod
     def menu():
-        # Exibe o menu principal com as opções disponíveis ao usuário
         print("|------------------------------------------------|")
         print("| Cadastro de Clientes                           |")
         print("| 1-Inserir, 2-Listar, 3-Atualizar, 4-Excluir    |")
@@ -31,29 +29,28 @@ class UI:  # Classe de Interface com o Usuário (View no padrão)
         print("| 99-FIM                                         |")
         print("|------------------------------------------------|")
         print()
-        op = int(input("Selecione uma opção: "))  # Recebe a opção do usuário
+        op = int(input("Selecione uma opção: "))
         print()
         return op
 
     @staticmethod
-    def main():
-        # Loop principal que executa o menu e chama os métodos correspondentes
-        View.cadastrar_admin()  # Garante que o usuário admin seja criado no início
+    def main(): 
+        View.cadastrar_admin()  
         op = 0
+        # clientes = []
         while op != 99:
-            op = UI.menu()  # Mostra menu e lê opção
-            # Mapeamento das opções do menu para os métodos da UI
-            if op == 1: UI.cliente_inserir()
+            op = UI.menu()
+            if op == 1: UI.cliente_inserir() 
             if op == 2: UI.cliente_listar()
             if op == 3: UI.cliente_atualizar()
             if op == 4: UI.cliente_excluir()
 
-            if op == 5: UI.categoria_inserir()
+            if op == 5: UI.categoria_inserir() 
             if op == 6: UI.categoria_listar()
             if op == 7: UI.categoria_atualizar()
             if op == 8: UI.categoria_excluir()
 
-            if op == 9: UI.produto_inserir()
+            if op == 9: UI.produto_inserir() 
             if op == 10: UI.produto_listar()
             if op == 11: UI.produto_atualizar()
             if op == 12: UI.produto_excluir()
@@ -64,92 +61,153 @@ class UI:  # Classe de Interface com o Usuário (View no padrão)
             if op == 16: UI.inserir_produto_no_carrinho()
             if op == 17: UI.confirmar_compra()
 
-    # -------------------------
+
+    # Operações de Venda
+    @classmethod
+    def venda_inserir(cls): # C - create
+        v = Venda(0)
+        Vendas.inserir(v)
+        cls.carrinho = v
+
+    @staticmethod # R - read
+    def venda_listar(): 
+        for v in Vendas.listar(): 
+            print(v)
+            for item in VendaItens.listar():
+                if item.id_venda == v.id:
+                    id_produto = item.id_produto
+                    descricao = Produtos.listar_id(id_produto).descricao
+                    print(f"  {descricao} - Qtd: {item.qtd} - R$ {item.preco:.2f}")
+
+
+    @classmethod 
+    def visualizar_carrinho(cls): 
+        if cls.carrinho == None:
+            print("Você precisa criar um carrinho primeiro!")
+            return
+        print("Este é seu carrinho atual: ", cls.carrinho)
+        for item in VendaItens.listar():
+            if item.id_venda == cls.carrinho.id:
+                id_produto = item.id_produto
+                descricao = Produtos.listar_id(id_produto).descricao
+                print(f"  {descricao} - Qtd: {item.qtd} - R$ {item.preco:.2f}")
+
+    @classmethod 
+    def inserir_produto_no_carrinho(cls):
+        if cls.carrinho == None:
+            print("Você precisa criar um carrinho primeiro!")
+            return
+        
+        # Listar os produtos disponíveis
+        UI.produto_listar()
+        id_produto = int(input("Informe o id do produto: "))
+        qtd = int(input("Informe a qtd: "))
+
+        # inserir o produto no carrinho
+        View.inserir_produto_no_carrinho(cls.carrinho.id, id_produto, qtd)
+        """
+        # Consultar preço do produto
+        preco = Produtos.listar_id(id_produto).preco
+        # Instanciar o item da venda
+        vi = VendaItem(0, qtd, preco)
+        vi.id_venda = cls.carrinho.id
+        vi.id_produto = id_produto
+        # Inserir o item da venda
+        VendaItens.inserir(vi)
+        # Atualizar o total da venda (carrinho)
+        subtotal = qtd * preco
+        cls.carrinho.total += subtotal
+        Vendas.atualizar(cls.carrinho)
+        """
+    @classmethod 
+    def confirmar_compra(cls): 
+        if cls.carrinho == None:
+            print("Você precisa criar um carrinho primeiro!")
+            return
+        # Na venda (carrinho), colocar o atributo carrinho para False
+        cls.carrinho.carrinho = False
+        Vendas.atualizar(cls.carrinho)
+        # Percorrer os itens da venda (vendaitem-qtd) e baixar o estoque no
+        # cadastro de produto (produto-estoque)
+        for item in VendaItens.listar():
+            if item.id_venda == cls.carrinho.id:
+                id_produto = item.id_produto
+                qtd = item.qtd
+                produto = Produtos.listar_id(id_produto)
+                produto.estoque -= qtd
+                Produtos.atualizar(produto)
+
     # CRUD de Clientes
-    # -------------------------
     @staticmethod
-    def cliente_inserir():
-        # Solicita os dados e envia para o View inserir um cliente
+    def cliente_inserir(): # C - create
+        # id = int(input("Informe o id do cliente: "))
         nome = input("Informe o nome: ")
         email = input("Informe o e-mail: ")
         fone = input("Informe o fone: ")
+        #c = Cliente(0, nome, email, fone)
+        #Clientes.inserir(c)
         View.cliente_inserir(nome, email, fone)
-
-    @staticmethod
-    def cliente_listar():
-        # Lista todos os clientes cadastrados
-        for c in View.cliente_listar():
-            print(c)
-
-    @staticmethod
-    def cliente_atualizar():
-        # Atualiza os dados de um cliente existente
+    @staticmethod # R - read
+    def cliente_listar(): 
+        #for c in Clientes.listar(): print(c)
+        for c in View.cliente_listar(): print(c)
+    @staticmethod # U - update
+    def cliente_atualizar(): 
         UI.cliente_listar()
         id = int(input("Informe o id do cliente a ser atualizado: "))
         nome = input("Informe o novo nome: ")
         email = input("Informe o novo e-mail: ")
-        fone = input("Informe o novo fone: ")
+        fone = input("Informe o novo fone: ")        
+        #c = Cliente(id, nome, email, fone)
+        #Clientes.atualizar(c)
         View.cliente_atualizar(id, nome, email, fone)
-
-    @staticmethod
-    def cliente_excluir():
-        # Exclui um cliente pelo ID
+    @staticmethod # D - delete
+    def cliente_excluir(): 
         UI.cliente_listar()
         id = int(input("Informe o id do cliente a ser excluído: "))
+        #c = Cliente(id, "", "", "")
+        #Clientes.excluir(c)
         View.cliente_excluir(id)
 
-    # -------------------------
     # CRUD de Categorias
-    # -------------------------
     @staticmethod
-    def categoria_inserir():
-        # Insere uma nova categoria de produto
+    def categoria_inserir(): # C - create
         descricao = input("Informe a descrição: ")
-        View.inserir_categoria(descricao)
-
-    @staticmethod
-    def categoria_listar():
-        # Lista todas as categorias cadastradas
-        for c in View.listar_categorias():
-            print(c)
-
-    @staticmethod
-    def categoria_atualizar():
-        # Atualiza uma categoria existente
+        c = Categoria(0, descricao)
+        Categorias.inserir(c)
+    @staticmethod # R - read
+    def categoria_listar(): 
+        for c in Categorias.listar(): print(c)
+    @staticmethod # U - update
+    def categoria_atualizar(): 
         UI.categoria_listar()
         id = int(input("Informe o id da categoria a ser atualizada: "))
         descricao = input("Informe a nova descrição: ")
-        View.atualizar_categoria(id, descricao)
-
-    @staticmethod
-    def categoria_excluir():
-        # Exclui uma categoria pelo ID
+        c = Categoria(id, descricao)
+        Categorias.atualizar(c)
+    @staticmethod # D - delete
+    def categoria_excluir(): 
         UI.categoria_listar()
         id = int(input("Informe o id da categoria a ser excluída: "))
-        View.excluir_categoria(id)
+        c = Categoria(id, "")
+        Categorias.excluir(c)
 
-    # -------------------------
     # CRUD de Produtos
-    # -------------------------
     @staticmethod
-    def produto_inserir():
-        # Insere um novo produto associado a uma categoria
+    def produto_inserir(): # C - create
         descricao = input("Informe a descrição: ")
         preco = float(input("Informe o preço: "))
         estoque = int(input("Informe o estoque: "))
         UI.categoria_listar()
         id_categoria = int(input("Informe o id da categoria: "))
-        View.inserir_produto(descricao, preco, estoque, id_categoria)
-
-    @staticmethod
-    def produto_listar():
-        # Lista todos os produtos cadastrados
-        for p in View.listar_produtos():
-            print(p)
-
-    @staticmethod
-    def produto_atualizar():
-        # Atualiza as informações de um produto existente
+        c = Produto(0, descricao, preco, estoque)
+        c.id_categoria = id_categoria
+        Produtos.inserir(c)
+    @staticmethod # R - read
+    def produto_listar(): 
+        for c in Produtos.listar(): print(c)
+    @staticmethod # U - update
+    def produto_atualizar(): 
         UI.produto_listar()
         id = int(input("Informe o id do produto a ser atualizado: "))
         descricao = input("Informe a nova descrição: ")
@@ -157,60 +215,14 @@ class UI:  # Classe de Interface com o Usuário (View no padrão)
         estoque = int(input("Informe o novo estoque: "))
         UI.categoria_listar()
         id_categoria = int(input("Informe o id da nova categoria: "))
-        View.atualizar_produto(id, descricao, preco, estoque, id_categoria)
-
-    @staticmethod
-    def produto_excluir():
-        # Exclui um produto pelo ID
+        c = Produto(id, descricao, preco, estoque)
+        c.id_categoria = id_categoria
+        Produtos.atualizar(c)
+    @staticmethod # D - delete
+    def produto_excluir(): 
         UI.produto_listar()
         id = int(input("Informe o id do produto a ser excluído: "))
-        View.excluir_produto(id)
+        c = Produto(id, "", "", "")
+        Produtos.excluir(c)
 
-    # -------------------------
-    # Operações de Venda / Carrinho
-    # -------------------------
-    @classmethod
-    def venda_inserir(cls):
-        # Cria uma nova venda e associa a um carrinho
-        cls.carrinho = View.inserir_venda()
-
-    @staticmethod
-    def venda_listar():
-        # Lista todas as vendas confirmadas e seus itens
-        for venda_info, itens in View.listar_vendas_com_itens():
-            print(venda_info)
-            for item in itens:
-                print(item)
-
-    @classmethod
-    def visualizar_carrinho(cls):
-        # Exibe os produtos no carrinho atual
-        if cls.carrinho is None:
-            print("Você precisa criar um carrinho primeiro!")
-            return
-        carrinho, itens = View.listar_itens_do_carrinho(cls.carrinho.id)
-        print("Este é seu carrinho atual:", carrinho)
-        for item in itens:
-            print(item)
-
-    @classmethod
-    def inserir_produto_no_carrinho(cls):
-        # Adiciona um produto ao carrinho atual
-        if cls.carrinho is None:
-            print("Você precisa criar um carrinho primeiro!")
-            return
-        UI.produto_listar()
-        id_produto = int(input("Informe o id do produto: "))
-        qtd = int(input("Informe a qtd: "))
-        View.inserir_produto_no_carrinho(cls.carrinho.id, id_produto, qtd)
-
-    @classmethod
-    def confirmar_compra(cls):
-        # Finaliza a compra do carrinho atual
-        if cls.carrinho is None:
-            print("Você precisa criar um carrinho primeiro!")
-            return
-        View.confirmar_compra(cls.carrinho.id)
-
-# Executa o programa
-UI.main()
+UI.main()            
