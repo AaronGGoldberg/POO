@@ -1,16 +1,5 @@
-import json
-
-class Produto:
-    def __init__(self, id, descricao, preco, estoque):
-        self.id = id       
-        self.descricao = descricao
-        self.preco = preco
-        self.estoque = estoque
-        self.id_categoria = 0
-    def __str__(self):
-        return f"{self.id} - {self.descricao} - R$ {self.preco:.2f} - estoque: {self.estoque}"
-
-class Produtos:    # Persistência - Armazena os objetos em um arquivo/banco de dados
+from abc import ABC, abstractmethod
+class Modelo(ABC):
     objetos = []   # atributo de classe / estático - Não tem instância
     @classmethod
     def inserir(cls, obj):
@@ -45,19 +34,11 @@ class Produtos:    # Persistência - Armazena os objetos em um arquivo/banco de 
             cls.objetos.remove(x)
             cls.salvar()
     @classmethod
+    @abstractmethod
     def abrir(cls):
-        cls.objetos = [] 
-        try:   
-            with open("produtos.json", mode="r") as arquivo:
-                s = json.load(arquivo)
-                for dic in s: 
-                    obj = Produto(dic["id"], dic["descricao"], dic["preco"], dic["estoque"])
-                    obj.id_categoria = dic["id_categoria"]
-                    cls.objetos.append(obj)
-        except FileNotFoundError:
-            pass            
+        pass
     @classmethod
+    @abstractmethod
     def salvar(cls):
-        with open("produtos.json", mode="w") as arquivo:
-            json.dump(cls.objetos, arquivo, default = vars)
+        pass
 
