@@ -252,12 +252,16 @@ class View:
             raise ValueError("Pedido não encontrado.")
         pedido.setStatusEnvio(status_envio, id_entregador)
         Pedidos.atualizar(pedido)
-
+        
         e = Entregadores.listar_id(id_entregador)
-        if(status_envio == "Entregue"):
-            e.setStatus(False)
+        if status_envio == "Entregue":
+            if e is not None:
+                e.setStatus(False)
+            else:
+                return
             Entregadores.atualizar(e)
             return
+
         e.setStatus(True)
         Entregadores.atualizar(e)
 
